@@ -5,8 +5,11 @@ email: vvsbnmit@gmail.com
 description: "My journey of AI"
 baseurl: ""
 url: "https://vvsbnmit.github.io"
-twitter_username: vikramvishal90
-github_username:  vvsbnmit
+twitter: vikramvishal90
+github:  vvsbnmit
+linkedin: "vvs"
+
+google_tracking_id : UA-157821185-1
 
 # Build settings
 markdown: kramdown
@@ -15,11 +18,6 @@ permalink: pretty
 paginate: 5
 exclude: ["node_modules"]
 
-analytics :
-  provider : google
-  google:
-    tracking_id : 'UA-157821185-1'
-  getclicky :
-    site_id
-
 theme: jekyll-theme-cayman
+
+gems: [jekyll-paginate, jekyll-feed]
