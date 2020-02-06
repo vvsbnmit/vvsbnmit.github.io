@@ -1,0 +1,43 @@
+
+# Moving Beyond Linearity.
+
+
+The assumption of Linear relationship between target variable and independent variables sometime effect the predictive power of Linear regression. Therefore various simple extension of Linear regression is used to overcome this problem.
+
+### Polynomial Regression.
+
+This is the most basic extension of Linear regression. In this we introduce the polynomial function generally of power from 2 to 4. 
+
+### Step Function.
+
+In polynomial regression we impose the polynomial function globally. Therefore we use 'Step function' if we want to avoid this imposition. In this setting we divide our independent variable into 'k' regions and estimate 'k+1' coefficient using OLS.
+
+### Regression Splines.
+
+This is the extension of the above two described basis function.
+
+#### Piecewise Polynomials.
+
+In this setting we fit a lower degree polynomial over 'k' partition. The degree of polynomial will be same across different partition. The coefficent of independent variables changes in different partition and the point where the estimates changes is known as 'knots'.
+
+The Spline impose the constarints on the d piecewise polynomials to be continuous on knots with continuity over 'd-1' derivatives. The Splines suffer from higher variance at the knots and therefore an additional constraint of the function of being linear at the boundries are added. The Splines with these additional constraint is known as "Natural d(power of term, for e.g. cubic,quadratic) Spline".
+
+The knots are selected by stating the degree of freedom and letting the software pick the decision boundaries for us. This can also be done using cross-validation approach.
+
+### Smoothing Splines.
+
+The Smoothing Spline is a different approach of fitting the Spline using the "Loss + Penalty" format. The Smoothing Splines takes care of bias - variance trade off. The smoothing parameter 'Lambda' is selected by using the method of 'LOOCV' technique.
+
+### Local Regression.
+
+In this setting we define the span that is the nearest neighbor which are weighted i.e. points close to the point of interest carries more weight than the point farther from it. We then estimate the coefficeint. The span 's' works as a tuning parameter and the large value of 's' results into smoother lines. This type of model is suitable for recent data sets as we can implement the varying coefficient to the time dimension.
+
+
+### Generalized Additive Models (GAM)
+
+GAM extends a standard linear model by allowing non-linear functions of each variable while maintaining 'additivity'. GAM can be used for both regression and classification.
+
+
+```python
+
+```

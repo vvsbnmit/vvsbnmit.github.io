@@ -1,0 +1,667 @@
+
+## Classification.
+
+Response variable is 'Categorical'.
+
+The methods used for classification first predict the probability of each of the categories.
+
+### Why not Linear regression?
+For a binary qualitative respone we may fit a linear regression after dummy encoding. But with response variable with more than two class it becomes impossible to fit as the way we encode our response variable will change the entire model and hence the estimates and prediction.
+
+But even though we can fit a linear regression on data with binary response variable some of the estimates might lie beyond the [0,1] interval making them hard to interpret as probabilities.
+
+### Logistic Regression.
+
+Models the probability that Y belongs to a particular category.
+
+p(X) = e^(b0+b1x)/1+e^(b0+b1x)  -(1)
+
+e^(b0+b1x) = p(X)/1-p(X)
+
+log(p(X)/1-p(X)) = b0+b1x  -> log-odds or logit.
+
+### Estimating the Regression Coefficient.
+
+Maximum Likelihood is used to estimate the coefficient b0, b1 etc.
+
+The estimates are generated are such that the value (1) becomes close to one of the class observed in the data sets.
+
+z-statistics is same as the t-statistics from Linear Regression. Basically it is used to validate the null hypothesis H0 i.e. there is no relation between the variables and the response.
+
+Logistic regression can be extended for problems involving more than 2 categories but other models such as Linear Discriminant Analysis are preferred.
+
+### Linear Discriminant Analysis.
+
+In this model we model the distribution of predictors and then uses Bayes Theorem to flip these distribution around into estimates.
+
+Assumes that the observation from each class follows Gaussian Distribution.
+
+LDA compared to Logistic Regression.
+
+1. LDA is more stable than Logistic Regression when class is well separated.
+2. When n is small and distribution of the predictor is normal in each class then LDA is more stable.
+
+
+Accuracy of classification model:
+1. Confusion Matrix
+2. ROC curve (reciever operating characteristics)
+
+Variants of LDA -> Quadratic Discriminant Analysis -> unlike LDA assumes that each class have their own covariance matrix.
+
+LDA has the advantage over QDA in the terms that it estimates tha covariance matrix which brings down the number of parameter estimates.(same as in Linear Regression where we make assumption of linear shape of function).
+
+The coefficient in LDA is estimated usingmean and variance from normal distribution.
+
+
+
+```python
+# import libraries
+import pandas as pd
+import numpy as np
+from sklearn import *
+```
+
+
+```python
+#Reading the Smarket data sets
+Smarket = pd.read_csv(r'C:\Users\Vikram\Desktop\ISLR\Data\Smarket.csv', header='infer', index_col='Column1')
+```
+
+
+```python
+# columns in our data sets
+list(Smarket.columns)
+```
+
+
+
+
+    ['Year',
+     'Lag1',
+     'Lag2',
+     'Lag3',
+     'Lag4',
+     'Lag5',
+     'Volume',
+     'Today',
+     'Direction']
+
+
+
+
+```python
+# Exploring the data sets
+Smarket.describe()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Lag1</th>
+      <th>Lag2</th>
+      <th>Lag3</th>
+      <th>Lag4</th>
+      <th>Lag5</th>
+      <th>Volume</th>
+      <th>Today</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1250.000000</td>
+      <td>1250.000000</td>
+      <td>1250.000000</td>
+      <td>1250.000000</td>
+      <td>1250.000000</td>
+      <td>1250.00000</td>
+      <td>1250.000000</td>
+      <td>1250.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2003.016000</td>
+      <td>0.003834</td>
+      <td>0.003919</td>
+      <td>0.001716</td>
+      <td>0.001636</td>
+      <td>0.00561</td>
+      <td>1.478305</td>
+      <td>0.003138</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.409018</td>
+      <td>1.136299</td>
+      <td>1.136280</td>
+      <td>1.138703</td>
+      <td>1.138774</td>
+      <td>1.14755</td>
+      <td>0.360357</td>
+      <td>1.136334</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>2001.000000</td>
+      <td>-4.922000</td>
+      <td>-4.922000</td>
+      <td>-4.922000</td>
+      <td>-4.922000</td>
+      <td>-4.92200</td>
+      <td>0.356070</td>
+      <td>-4.922000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2002.000000</td>
+      <td>-0.639500</td>
+      <td>-0.639500</td>
+      <td>-0.640000</td>
+      <td>-0.640000</td>
+      <td>-0.64000</td>
+      <td>1.257400</td>
+      <td>-0.639500</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2003.000000</td>
+      <td>0.039000</td>
+      <td>0.039000</td>
+      <td>0.038500</td>
+      <td>0.038500</td>
+      <td>0.03850</td>
+      <td>1.422950</td>
+      <td>0.038500</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2004.000000</td>
+      <td>0.596750</td>
+      <td>0.596750</td>
+      <td>0.596750</td>
+      <td>0.596750</td>
+      <td>0.59700</td>
+      <td>1.641675</td>
+      <td>0.596750</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2005.000000</td>
+      <td>5.733000</td>
+      <td>5.733000</td>
+      <td>5.733000</td>
+      <td>5.733000</td>
+      <td>5.73300</td>
+      <td>3.152470</td>
+      <td>5.733000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+# dimension of our data sets we have 1250 observation and 9 columns
+Smarket.shape
+```
+
+
+
+
+    (1250, 9)
+
+
+
+
+```python
+# correlation matrix
+Smarket.corr()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Lag1</th>
+      <th>Lag2</th>
+      <th>Lag3</th>
+      <th>Lag4</th>
+      <th>Lag5</th>
+      <th>Volume</th>
+      <th>Today</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Year</th>
+      <td>1.000000</td>
+      <td>0.029700</td>
+      <td>0.030596</td>
+      <td>0.033195</td>
+      <td>0.035689</td>
+      <td>0.029788</td>
+      <td>0.539006</td>
+      <td>0.030095</td>
+    </tr>
+    <tr>
+      <th>Lag1</th>
+      <td>0.029700</td>
+      <td>1.000000</td>
+      <td>-0.026294</td>
+      <td>-0.010803</td>
+      <td>-0.002986</td>
+      <td>-0.005675</td>
+      <td>0.040910</td>
+      <td>-0.026155</td>
+    </tr>
+    <tr>
+      <th>Lag2</th>
+      <td>0.030596</td>
+      <td>-0.026294</td>
+      <td>1.000000</td>
+      <td>-0.025897</td>
+      <td>-0.010854</td>
+      <td>-0.003558</td>
+      <td>-0.043383</td>
+      <td>-0.010250</td>
+    </tr>
+    <tr>
+      <th>Lag3</th>
+      <td>0.033195</td>
+      <td>-0.010803</td>
+      <td>-0.025897</td>
+      <td>1.000000</td>
+      <td>-0.024051</td>
+      <td>-0.018808</td>
+      <td>-0.041824</td>
+      <td>-0.002448</td>
+    </tr>
+    <tr>
+      <th>Lag4</th>
+      <td>0.035689</td>
+      <td>-0.002986</td>
+      <td>-0.010854</td>
+      <td>-0.024051</td>
+      <td>1.000000</td>
+      <td>-0.027084</td>
+      <td>-0.048414</td>
+      <td>-0.006900</td>
+    </tr>
+    <tr>
+      <th>Lag5</th>
+      <td>0.029788</td>
+      <td>-0.005675</td>
+      <td>-0.003558</td>
+      <td>-0.018808</td>
+      <td>-0.027084</td>
+      <td>1.000000</td>
+      <td>-0.022002</td>
+      <td>-0.034860</td>
+    </tr>
+    <tr>
+      <th>Volume</th>
+      <td>0.539006</td>
+      <td>0.040910</td>
+      <td>-0.043383</td>
+      <td>-0.041824</td>
+      <td>-0.048414</td>
+      <td>-0.022002</td>
+      <td>1.000000</td>
+      <td>0.014592</td>
+    </tr>
+    <tr>
+      <th>Today</th>
+      <td>0.030095</td>
+      <td>-0.026155</td>
+      <td>-0.010250</td>
+      <td>-0.002448</td>
+      <td>-0.006900</td>
+      <td>-0.034860</td>
+      <td>0.014592</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+%matplotlib inline
+import matplotlib.pyplot as plt
+```
+
+
+```python
+plt.plot(Smarket.Volume)
+```
+
+
+
+
+    [<matplotlib.lines.Line2D at 0x29ba3a00320>]
+
+
+
+
+![png](Chapter%20-%204_files/Chapter%20-%204_8_1.png)
+
+
+
+```python
+# dividing the data set in training and test, Also coding up as '1' and down as '0' in order to calculate the score and create
+# ROC curve
+
+Smarket_y_train = Smarket.Direction.head(1000)
+Smarket_y_train= np.where(Smarket_y_train.values == 'Up',1,0)
+Smarket_y_test = Smarket.Direction.tail(250)
+Smarket_y_test= np.where(Smarket_y_test.values == 'Up',1,0)
+Smarket_x_train = Smarket.loc[:, Smarket.columns != 'Direction'].head(1000)
+Smarket_x_test = Smarket.loc[:, Smarket.columns != 'Direction'].tail(250)
+```
+
+
+```python
+# Fitting a logistic regression using statsmodel library to imitate R powerful summary(). As shown below the p value are 
+# not significant therefore we can not reject the null hypothesis H0
+
+import statsmodels.api as sm
+model = sm.Logit(Smarket_y_train,Smarket_x_train.astype(float))
+result = model.fit()
+print(result.summary2())
+```
+
+    Warning: Maximum number of iterations has been exceeded.
+             Current function value: 0.000126
+             Iterations: 35
+                              Results: Logit
+    ==================================================================
+    Model:              Logit            Pseudo R-squared: 1.000      
+    Dependent Variable: y                AIC:              16.2516    
+    Date:               2018-12-10 18:35 BIC:              55.5137    
+    No. Observations:   1000             Log-Likelihood:   -0.12582   
+    Df Model:           7                LL-Null:          -693.05    
+    Df Residuals:       992              LLR p-value:      4.4557e-295
+    Converged:          0.0000           Scale:            1.0000     
+    No. Iterations:     35.0000                                       
+    -------------------------------------------------------------------
+               Coef.    Std.Err.     z     P>|z|     [0.025     0.975] 
+    -------------------------------------------------------------------
+    Year       -0.0148    0.0188  -0.7893  0.4300    -0.0517     0.0220
+    Lag1       -1.3378    5.7210  -0.2338  0.8151   -12.5507     9.8752
+    Lag2        4.2866   11.8498   0.3617  0.7175   -18.9386    27.5119
+    Lag3       -0.3540    6.5472  -0.0541  0.9569   -13.1863    12.4783
+    Lag4        1.6490   13.0688   0.1262  0.8996   -23.9653    27.2633
+    Lag5        3.9262    7.5515   0.5199  0.6031   -10.8745    18.7269
+    Volume     24.6333   28.8930   0.8526  0.3939   -31.9960    81.2626
+    Today     871.2380  583.1839   1.4939  0.1352  -271.7815  2014.2576
+    ==================================================================
+    
+
+
+    C:\Users\Vikram\Anaconda3\lib\site-packages\statsmodels\base\model.py:508: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+      "Check mle_retvals", ConvergenceWarning)
+
+
+
+```python
+# fitting a Logistic Regression model using sklearn library.
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, roc_curve
+clf = LogisticRegression(solver='liblinear')
+clf.fit(Smarket_x_train,Smarket_y_train)
+```
+
+
+
+
+    LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+              intercept_scaling=1, max_iter=100, multi_class='warn',
+              n_jobs=None, penalty='l2', random_state=None, solver='liblinear',
+              tol=0.0001, verbose=0, warm_start=False)
+
+
+
+
+```python
+# The accuracy of out model is awesome its 99% accurate
+
+clf.score(Smarket_x_train,Smarket_y_train)
+```
+
+
+
+
+    0.992
+
+
+
+
+```python
+# metrics used to validate classification model precision, recall and given the number we can say that our model is accurate
+
+clf.predict(Smarket_x_test)
+print(classification_report(clf.predict(Smarket_x_test),Smarket_y_test))
+```
+
+                  precision    recall  f1-score   support
+    
+               0       1.00      0.98      0.99       111
+               1       0.99      1.00      0.99       139
+    
+       micro avg       0.99      0.99      0.99       250
+       macro avg       0.99      0.99      0.99       250
+    weighted avg       0.99      0.99      0.99       250
+    
+
+
+
+```python
+# confusion matrix : A way to visualize the performance of our classifier.
+confusion_matrix(Smarket_y_test, clf.predict(Smarket_x_test))
+```
+
+
+
+
+    array([[109,   0],
+           [  2, 139]], dtype=int64)
+
+
+
+
+```python
+# ROC curve tells us how well our model is doing. In ideal case it should be touching the top left corner of the graph as in 
+# case of our model and area-under-curve is 0.99 which is close to 1.
+
+logit_roc_auc = roc_auc_score(Smarket_y_test,clf.predict(Smarket_x_test))
+fpr, tpr, thresholds = roc_curve(Smarket_y_test, clf.predict_proba(Smarket_x_test)[:,1])
+plt.figure()
+plt.plot(fpr, tpr, label='Logistic Regression (area = %0.2f)' % logit_roc_auc)
+plt.plot([0, 1], [0, 1],'r--')
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver operating characteristic')
+plt.legend(loc="lower right")
+plt.show()
+```
+
+
+![png](Chapter%20-%204_files/Chapter%20-%204_15_0.png)
+
+
+
+```python
+# Linear Discriminant Analysis
+
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
+clf1 = LinearDiscriminantAnalysis()
+clf2 = QuadraticDiscriminantAnalysis()
+clf1.fit(Smarket_x_train,Smarket_y_train)
+clf2.fit(Smarket_x_train,Smarket_y_train)
+```
+
+
+
+
+    QuadraticDiscriminantAnalysis(priors=None, reg_param=0.0,
+                   store_covariance=False, store_covariances=None, tol=0.0001)
+
+
+
+
+```python
+# We can see that LDA and QDA are not performing better than Logistic Regression.
+
+clf1.score(Smarket_x_train,Smarket_y_train), clf2.score(Smarket_x_train,Smarket_y_train)
+```
+
+
+
+
+    (0.97, 0.962)
+
+
+
+
+```python
+# confusion matrix for LDA
+
+confusion_matrix(Smarket_y_test,clf1.predict(Smarket_x_test))
+```
+
+
+
+
+    array([[ 99,  10],
+           [  0, 141]], dtype=int64)
+
+
+
+
+```python
+# confusion matrix for QDA
+confusion_matrix(Smarket_y_test,clf2.predict(Smarket_x_test))
+```
+
+
+
+
+    array([[101,   8],
+           [ 13, 128]], dtype=int64)
+
+
+
+
+```python
+# KNN
+
+from sklearn.neighbors import KNeighborsClassifier
+
+# KNN classifier with k=1
+clf3 = KNeighborsClassifier(n_neighbors=1)
+# KNN classifier with k=3
+clf4 = KNeighborsClassifier(n_neighbors=3)
+clf3.fit(Smarket_x_train,Smarket_y_train)
+clf4.fit(Smarket_x_train,Smarket_y_train)
+```
+
+
+
+
+    KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+               metric_params=None, n_jobs=None, n_neighbors=3, p=2,
+               weights='uniform')
+
+
+
+
+```python
+# As we can see that the KNN classifier with k=1 perfectly fits the data because it is taking a shape of step function and only 
+# considering the nearest point in the data set due to which it overfits the training data set. As we will se with our test data
+# set it will perform poorly on the test data set.
+
+clf3.score(Smarket_x_train,Smarket_y_train),clf4.score(Smarket_x_train,Smarket_y_train)
+```
+
+
+
+
+    (1.0, 0.949)
+
+
+
+
+```python
+# As we can see on the unseen data set the performance of our model has degraded significantly. Curretly its the accuracy is 
+# TP+TN/Total obsv. 209/250 = 83.6 % or to be more precise in our case we calculate. recall = TP/TP+FN = 119/141 = 84%
+
+from pandas_ml import ConfusionMatrix
+cm = ConfusionMatrix(Smarket_y_test,clf3.predict(Smarket_x_test))
+cm
+```
+
+
+
+
+    Predicted  False  True  __all__
+    Actual                         
+    False         90    19      109
+    True          22   119      141
+    __all__      112   138      250
+
+
+
+
+```python
+confusion_matrix(Smarket_y_test,clf4.predict(Smarket_x_test))
+```
+
+
+
+
+    array([[ 90,  19],
+           [ 21, 120]], dtype=int64)
+
+

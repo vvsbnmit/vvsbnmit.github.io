@@ -1,0 +1,38 @@
+
+# Support Vector Machines.
+
+
+### Maximal Margin Classifier(MMC).
+
+The MMC introduces the concept of hyperplane which separates the two classes. In a p-dimensional data we will have p-1 dimension hyperplane. We can assign the test observation based on the sign which we get after substituting the value in the hyperplane equation and based on the value i.e. >0 or <0 we assign the class.
+
+The MMC got its name because it tends to fit a line which has maximal minimum distance from the data points as if the data is perfectly seperated by a line then there can be possibly infinite straight line which we can draw therefore we use maximal minimum distance to come up with the line which separates the classes which adds to the confidence in the classification. The data points which are closest to the line using which we define our hyperplane are known as 'Support Vectors' and intersetingly the hyperplane is affected by only these points. 
+
+### Support Vector Classifier(SVC).
+
+When two classes are not separable completely we introduce the concept of soft-margin to MMC and this generalization of MMC is known as Support Vector Classifier. We introduces 'slack variables' which is the number of observation that can be misclassified by the SVC.
+
+In SVC the data points which lie on the margin or on the wrong side of the margin are termed as 'Support Vectors'.
+
+### Support Vector Machines(SVM).
+
+Unlike the above two approaches SVM was developed to solved the problems where classes are not linearlly separated. When SVC is combined with non-linear kernel then the resulting classifier is known as Support Vector Machines.
+
+There are also radial kernel for SVM which are suitable for classes surrounded by different class.
+
+SVM are basically build for binary classes. Therefore to tackle multi-class problem two approaches are suggested which are as follows:
+
+1. One-Versus-One Classification
+2. One-Versus-All Classification
+
+In SVM the loss function used is 'Hinge Loss' and the penalty is similar to that of 'Lasso Regression'.
+
+We have Support Vector Regression for quantitative variables.
+
+
+```python
+import numpy as np
+import pandas as pd
+%matplotlib inline
+import matplotlib.pyplot as plt
+```
