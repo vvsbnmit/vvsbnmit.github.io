@@ -158,7 +158,7 @@ plt.ylabel('mpg')
 
 
 
-![png](Chapter%20-%202_files/Chapter%20-%202_6_1.png)
+![](/assets/Chapter%20-%202_files/Chapter%20-%202_6_1.png)
 
 
 
@@ -178,7 +178,7 @@ sns.boxplot(x = Auto.cylinders,y = Auto.mpg)
 
 
 
-![png](Chapter%20-%202_files/Chapter%20-%202_7_1.png)
+![](/assets/Chapter%20-%202_files/Chapter%20-%202_7_1.png)
 
 
 
@@ -198,7 +198,7 @@ plt.hist(Auto.mpg)
 
 
 
-![png](Chapter%20-%202_files/Chapter%20-%202_8_1.png)
+![](/assets/Chapter%20-%202_files/Chapter%20-%202_8_1.png)
 
 
 
@@ -217,7 +217,7 @@ sns.pairplot(Auto,
 
 
 
-![png](Chapter%20-%202_files/Chapter%20-%202_9_1.png)
+![](/assets/Chapter%20-%202_files/Chapter%20-%202_9_1.png)
 
 
 
