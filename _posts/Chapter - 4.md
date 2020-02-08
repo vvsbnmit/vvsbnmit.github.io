@@ -384,7 +384,7 @@ plt.plot(Smarket.Volume)
 
 
 
-![png](Chapter%20-%204_files/Chapter%20-%204_8_1.png)
+![](/assets/Chapter%20-%204_files/Chapter%20-%204_8_1.png)
 
 
 
@@ -528,7 +528,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%204_files/Chapter%20-%204_15_0.png)
+![](/assets/Chapter%20-%204_files/Chapter%20-%204_15_0.png)
 
 
 
