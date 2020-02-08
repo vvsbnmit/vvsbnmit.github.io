@@ -6,6 +6,7 @@ description: "My journey of AI"
 baseurl: ""
 url: "https://vvsbnmit.github.io"
 twitter: vikramvishal90
+email: vikram.singh@uconn.edu
 github:  vvsbnmit
 linkedin: "vvs"
 
@@ -15,8 +16,8 @@ google_tracking_id : UA-157821185-1
 markdown: kramdown
 highlighter: rouge
 permalink: pretty
-paginate: 5
-exclude: ["node_modules"]
+paginate: 50
+exclude: ["less","node_modules","Gruntfile.js","package.json"]
 
 theme: jekyll-theme-cayman
 
