@@ -231,7 +231,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%205_files/Chapter%20-%205_17_0.png)
+![](/assets/Chapter%20-%205_files/Chapter%20-%205_17_0.png)
 
 
 
@@ -251,7 +251,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%205_files/Chapter%20-%205_18_0.png)
+![](/assets/Chapter%20-%205_files/Chapter%20-%205_18_0.png)
 
 
 ###### For Bootstrap we can use the random procedure used above with a small addition of 'replacement=True'
