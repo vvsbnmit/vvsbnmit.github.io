@@ -353,5 +353,5 @@ visualizer.poof()                 # Draw/show/poof the data
 ```
 
 
-![png](Chapter%20-%203_files/Chapter%20-%203_18_0.png)
+![](/assets/Chapter%20-%203_files/Chapter%20-%203_18_0.png)
 
