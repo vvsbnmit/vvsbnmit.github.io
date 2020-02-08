@@ -1,3 +1,13 @@
+---
+layout:     post
+title:      "Statistical Learning"
+subtitle:   "ISLR using Python"
+date:       2018-12-17 10:00:00
+author:     "Vikram Vishal"
+header-img: "assets/tfe/colony.jpg"
+summary:    
+---
+
 
 ## Statistical Learning:
 
