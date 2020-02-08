@@ -177,7 +177,7 @@ plt.xlim(xmin=0)
 
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_10_1.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_10_1.png)
 
 
 
@@ -197,7 +197,7 @@ plt.xlim(xmin=0)
 
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_11_1.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_11_1.png)
 
 
 
@@ -233,7 +233,7 @@ plt.title("K-Means Clustering Results with K=2");
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_15_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_15_0.png)
 
 
 
@@ -277,7 +277,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_19_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_19_0.png)
 
 
 
@@ -296,7 +296,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_20_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_20_0.png)
 
 
 
@@ -315,7 +315,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_21_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_21_0.png)
 
 
 
@@ -419,7 +419,7 @@ cb.set_ticklabels(color);
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_28_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_28_0.png)
 
 
 
@@ -437,7 +437,7 @@ cb.set_ticklabels(color);
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_29_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_29_0.png)
 
 
 
@@ -450,7 +450,7 @@ plt.xlim(xmin=0);
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_30_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_30_0.png)
 
 
 
@@ -463,7 +463,7 @@ plt.xlim(xmin=0);
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_31_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_31_0.png)
 
 
 
@@ -491,7 +491,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_33_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_33_0.png)
 
 
 
@@ -511,7 +511,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_34_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_34_0.png)
 
 
 
@@ -531,7 +531,7 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_35_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_35_0.png)
 
 
 
@@ -584,5 +584,5 @@ plt.show()
 ```
 
 
-![png](Chapter%20-%2010_files/Chapter%20-%2010_39_0.png)
+![](/assets/Chapter%20-%2010_files/Chapter%20-%2010_39_0.png)
 
