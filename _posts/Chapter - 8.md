@@ -150,7 +150,7 @@ Image(graph.create_png())
 
 
 
-![png](Chapter%20-%208_files/Chapter%20-%208_11_0.png)
+![](/assets/Chapter%20-%208_files/Chapter%20-%208_11_0.png)
 
 
 
