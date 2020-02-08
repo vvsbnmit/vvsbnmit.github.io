@@ -93,7 +93,7 @@ plt.scatter(x,y)
 
 
 
-![png](Chapter%20-%202_files/Chapter%20-%202_2_1.png)
+![](/assets/Chapter%20-%202_files/Chapter%20-%202_2_1.png)
 
 
 
